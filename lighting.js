@@ -8,6 +8,7 @@ var output = document.querySelector(".output");
 var result = document.querySelector(".result");
 var detach = document.querySelector(".detach");
 var searchInput = document.querySelector("input[type=search]");
+var script = document.querySelector("script");
 
 room.forEach(e => {
 	var grp = document.createElement("optgroup");
@@ -391,7 +392,7 @@ detach.addEventListener("click", function(e) {
 
 	var cs = createPanel(currentItem.bind.bind(currentItem));
 
-	document.body.insertBefore(cs, document.body.firstElementChild.nextElementSibling);
+	document.body.insertBefore(cs, script);
 });
 
 sync();
