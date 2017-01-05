@@ -1,0 +1,512 @@
+body { font-family: 'San Francisco', 'Helvetica Neue', 'Tahoma', sans-serif; font-size: 10pt; color: #111; }
+
+      label { display: inline-block; min-width: 128px; margin-right: 8px; }
+      body.no-scroll { overflow: hidden; }
+      input.wide { width: 256px; }
+      .keyPanel > div { margin-bottom: 8px; }
+      .propertyPanel > div { margin-bottom: 8px; }
+      form button { margin-right: 8px; }
+      .entity-properties {
+        border-collapse: collapse;
+        border-spacing: 0;
+        margin-bottom: 16px;
+        box-shadow: 0px 2px 4px 2px rgba(0,0,0,0.25);
+        border-radius: 0px 0px 3px 3px;
+      }
+      .entity-properties tr:nth-child(odd) { background-color: #eee; }
+      .entity-properties tr:hover { background-color: #ccc; }
+      .entity-properties tr:hover .menu { background-color: white; }
+      .entity-properties td { padding: 2px 4px; }
+      .entity-properties caption > * {
+        position: absolute;
+        cursor: pointer;
+        color: white;
+        text-decoration: none;
+        user-select: none;
+        padding: 0;
+        background-image: none;
+        box-shadow: none;
+        border-radius: 0;
+      }
+      .entity-properties caption > .close {
+        left: 8px;
+      }
+      .entity-properties caption > .menu {
+        right: 5px;
+        min-width: 16px;
+        line-height: 16px;
+      }
+      .menu {
+         padding: 2px 4px;
+         cursor: pointer;
+         background-color: rgba(0,0,0,0);
+         background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.125));
+         border-radius: 7px;
+         box-shadow: inset 0px 0px 1px rgba(0,0,0,1);
+         transition: background-color 0.1s linear,
+            border-radius 0.1s linear,
+            box-shadow 0.1s linear;
+      }
+      .menu.active {
+        background-color: rgba(0,0,0,0.125);
+        border-radius: 3px 3px 1px 1px;
+        box-shadow: 0px 1px 1px rgba(0,0,0,0.5) inset;
+      }
+      .entity-properties caption {
+        position: relative;
+        background-color: royalblue;
+        background-image: linear-gradient(to bottom, cornflowerblue, royalblue);
+        text-shadow: 0px 1px black;
+        box-shadow: -4px 2px 4px -2px rgba(0,0,0,0.25), 4px 2px 4px -2px rgba(0,0,0,0.25);
+		    color: white;
+		    padding: 4px 8px;
+		    border-radius: 3px 3px 0px 0px;
+      }
+      .p-special { font-style: italic; color: #888; }
+      .p-interactive { color: #04c; font-weight: bold; cursor: pointer; text-decoration: none; }
+      .p-interactive:hover { text-decoration: underline; text-shadow: 0px 1px 1px rgba(255,255,255,0.5); }
+      .p-compactable { display: inline-block; max-width: 50vw; word-wrap: break-word; }
+      div.queryField {
+        padding: 8px;
+        border-bottom: 1px solid #ccc;
+        z-index: 1;
+        position: fixed;
+        top: 24px;
+        left: 0px;
+        right: 0px;
+        background-color: rgba(250,250,250,0.9);
+        background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.0625));
+      }
+      div.querySpacer {
+        height: 32px;
+        margin-bottom: 18px;
+      }
+      div.queryField * { font-size: 16pt; height: 32px; box-sizing: border-box; vertical-align: top; margin-right: -1px; }
+      div.queryField input {
+        width: 720px;
+      }
+      div.queryField button {
+        border-radius: 0px 3px 3px 0px;
+        background-image: linear-gradient(to bottom, lightskyblue, royalblue);
+        color: white;
+        text-shadow: 1px 2px rgba(0,0,0,0.5);
+        border: 1px solid royalblue;
+      }
+      div.menuFader, div.popoverFader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        transition: opacity 0.1s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+        z-index: 200;
+      }
+      div.popoverFader {
+        background-image: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0), rgba(0,0,0,0.5));
+        vertical-align: middle;
+        line-height: 100vh;
+        text-align: center;
+        overflow-y: auto;
+      }
+      div.popoverFader > * {
+        vertical-align: middle;
+        line-height: 100%;
+        display: inline-block;
+        text-align: left;
+      }
+      div.popoverFader > * > * {
+        vertical-align: baseline;
+      }
+      div.popoverBorder {
+        padding: 8px;
+        border-radius: 3px;
+      }
+      .propertyValueContainer {
+        position: relative;
+        float: none;
+      }
+      .propertyValueContainer .keyContainer {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        right: 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      div.menuList {
+        position: absolute;
+        border-radius: 3px 0px 3px 3px;
+      }
+      div.menuList, div.popoverBorder {
+        background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0.9));
+        color: #111;
+        overflow: hidden;
+        box-shadow: 0px 2px 3px rgba(0,0,0,0.25);
+      }
+      div.menuList > * {
+        display: block;
+        text-decoration: none;
+        color: #111;
+        padding: 4px 8px;
+      }
+      div.menuList > :hover {
+        background-image: linear-gradient(to bottom, cornflowerblue, royalblue);
+        color: white;
+      }
+      div.propertyPanel {
+        width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+      div.propertyPanel label {
+        display: block;
+        margin-bottom: 4px;
+        text-align: left;
+      }
+      div.propertyPanel label > span {
+        display: inline-block;
+        text-align: right;
+        width: 80px;
+        padding-right: 2px;
+        margin-right: 2px;
+        box-sizing: border-box;
+      }
+      div.propertyPanel input[type=text], div.propertyPanel input[type=date], div.propertyPanel select {
+        width: 256px;
+        box-sizing: border-box;
+      }
+      label.disabled {
+      	text-decoration: line-through;
+      	color: #888;
+      	text-decoration-color: black;
+      	text-decoration-style: line-through;
+      	text-decoration-line: wavy;
+      }
+      .error {
+        color: red;
+      }
+      #confirmationPanel {
+        display: none;
+        width: 384px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      #submission {
+        display: none;
+      }
+	  
+	  	body.shade {
+	  		background-color: #eee;
+	  	}
+	  	
+		body.shade div.resultSheet, body.shade div.compactSheet > div.resultSheet, body.shade div.searchBox {
+			background-color: rgba(255, 255, 255, 0.99);
+			backdrop-filter: blur(8px);
+			border-radius: 2px;
+			box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.35);
+			box-sizing: border-box;
+		}
+	  	
+		body.shade div.resultSheet, body.shade div.compactSheet > div.resultSheet {
+			margin-top: 8px;
+			padding: 8px 8px;
+			position: relative;
+		}
+		div.compactSheet > div.resultSheet {
+			display: inline-block;
+			text-align: left;
+		}
+		div.compactSheet {
+			text-align: center;
+		}
+		div.costEstimation div {
+			width: 512px;
+			margin: 4px auto;
+		}
+		
+		.costBreakdown {
+			display: none;
+			z-index: 2;
+			position: absolute;
+			background-color: rgba(239, 205, 90, 0.99);
+			backdrop-filter: blur(8px);
+			padding: 8px 8px;
+			border-radius: 2px;
+			box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.35);
+			width: auto !important;
+		}
+		
+		.costPanel:hover .costBreakdown {
+			display: block;
+		}
+		
+		.costSummary {
+			overflow: hidden;
+		}
+		
+		.costDisplay, .chargeDisplay {
+			font-size: 48px;
+			font-weight: bold;
+			width: auto !important;
+		}
+		
+		.costDisplay {
+			float: left;
+			color: #cc0105;
+		}
+		
+		.chargeDisplay {
+			float: right;
+			color: #59a80f;
+		}
+		
+		.statPanel {
+			display: inline-block;
+			position: relative;
+		}
+		
+		.statPanel, .statPanel > textarea {
+			box-sizing: border-box;
+			width: 255px;
+			height: 255px;
+			resize: none;
+			vertical-align: top;
+		}
+		
+		.statPanel.thirdPanel, .statPanel.thirdPanel > textarea {
+			width: 170px;
+			height: 170px;
+			margin-top: -1px;
+		}
+		
+		.statPanel > button {
+			position: absolute;
+			right: 2px;
+			bottom: 3px;
+			z-index: 1;
+		}
+		
+		.costEstimation > h1 {
+			font-size: 16px;
+			margin: 0;
+			max-width: 510px;
+		}
+		
+		.costEstimation > h2 {
+			font-size: 14px;
+			margin-top: 0;
+			max-width: 510px;
+		}
+		
+		.compactSheetTileset > .compactSheet {
+			display: inline-block;
+			margin: 3px;
+		}
+		
+		.compactSheetTileset {
+			text-align: center;
+		}
+		
+		
+		.output {
+			color: #008;
+			margin: 16px;
+			text-align: center;
+			font-size: 48pt;
+			font-weight: bold;
+		}
+		
+		.result .detach {
+			text-align: center;
+			display: block;
+			border: none;
+			padding: 4px;
+			margin: 0;
+			background: transparent;
+			width: 100%;
+			box-sizing: border-box;
+		}
+		
+		.result .detach:hover, .result .detach:focus {
+			background: #f3f3f3;
+			outline: none;
+		}
+		
+		.result .detach:active {
+			background: #eee;
+			padding-top: 5px;
+			padding-bottom: 3px;
+		}
+		
+		.result .detach span {
+			display: inline-block;
+			width: 0px;
+			height: 0px;
+			border-top: 8px solid #111;
+			border-left: 8px solid transparent;
+			border-right: 8px solid transparent;
+			border-bottom: 0px solid transparent;
+		}
+		
+		.input {
+			text-align: center;
+			line-height: 200%;
+		}
+		
+		.var {
+			font-size: 9pt;
+		}
+		
+		input[type=number] {
+			width: 64px;
+			border: none;
+			border-bottom: 1px solid #888;
+		}
+		
+		button.delete {
+			position: absolute;
+			top: -7px;
+			left: -7px;
+			width: 20px;
+			height: 20px;
+			line-height: 20px;
+			vertical-align: middle;
+			border: 2px solid white;
+			background: black;
+			border-radius: 50%;
+			color: transparent;
+			box-shadow: 0px 2px 3px rgba(0,0,0,0.35);
+			overflow: hidden;
+			cursor: pointer;
+		}
+
+		button.delete:focus {
+			outline: none;
+		}
+		
+		button.delete:active {
+			transform: scale(1.25) !important;
+		}
+		
+		button.delete::before, button.delete::after, button.delete {
+			transition: transform 0.2s cubic-bezier(0.42, 0, 0.55, 1.65),
+				opacity 0.1s ease-in;
+		}
+		
+		button.delete:hover {
+			transform: scale(1.75);	
+		}
+		
+		button.delete::before, button.delete::after {
+			content: '';
+			position: absolute;
+			height: 3px;
+			width: 75%;
+			top: 50%;
+			left: 12.5%;
+			background: white;
+			border-radius: 1.5px;
+			margin-top: -1.5px;
+		}
+		
+		button.delete::before {
+			transform: rotateZ(45deg);
+		}
+		
+		button.delete::after {
+			transform: rotateZ(-45deg);
+		}
+		
+		div.reluctantlyVisibleDelete button.delete {
+			opacity: 0;
+		}
+		
+		div.reluctantlyVisibleDelete:hover button.delete {
+			opacity: 1;
+		}
+
+.magnifyingGlass { position: relative; display: inline-block; width: 24px; height: 24px; vertical-align: middle; }
+.magnifyingGlass::before {
+content: "";
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: 3px solid black;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.magnifyingGlass::after {
+content: "";
+    width: 11px;
+    height: 1px;
+    border-radius: 1px;
+    box-sizing: content-box;
+    border: 1px solid black;
+    position: absolute;
+    transform: rotateZ(45deg);
+    transform-origin: 0% 50%;
+    top: 11px;
+    left: 12px;
+    background: black;
+}
+
+div.searchBox {
+	position: relative;
+	width: 512px;
+	height: 40px;
+	margin: 8px auto;
+	border-radius: 3px;
+}
+
+div.searchBox .magnifyingGlass {
+	top: 8px;
+	left: 12px;
+	z-index: 1;
+}
+
+div.searchBox input[type=search] {
+	position: absolute;
+	font-size: 24px;
+	padding: 4px 8px 4px 44px;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	line-height: 24px;
+	border: none;
+	background: transparent;
+	box-sizing: border-box;
+	border-radius: 3px;
+}
+
+div.searchBox input[type=search]:focus {
+	background: white;
+}
+
+.noHighlight {
+	display: none !important;
+}
+
+@media (min-width: 512px) {
+    div.compactSheet > div.resultSheet {
+        min-width: 512px;
+    }
+    
+    div.searchBox {
+    	width: 512px;
+    }
+}
+
+@media (max-width: 512px) {
+    div.compactSheet > div.resultSheet {
+        min-width: 100%;
+    }
+    
+    div.searchBox {
+    	width: 100%;
+    }
+}
